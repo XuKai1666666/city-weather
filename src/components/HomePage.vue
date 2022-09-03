@@ -1,51 +1,85 @@
-<script setup lang="ts">
-import {  onMounted, getCurrentInstance } from 'vue'
-    const { proxy } = getCurrentInstance() as any
-    // 配置建议写在 onMount 的外面
-    const option = {
-      tooltip: {
-        trigger: 'item'
-      },
-      color: ['#ffd666', '#ffa39e', '#409EFF', '#69cbc2', '#d3adf7'],
-      series: [
-        {
-          name: '访问来源',
-          type: 'pie',
-          radius: '70%',
-          data: [
-            { value: 1048, name: '清洁能源发电区' },
-            { value: 735, name: '公共娱乐区域' },
-            { value: 580, name: '生活区域' },
-            { value: 484, name: '办公区域' },
-            { value: 300, name: '绿植空地' }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
-    }
-    onMounted(() => {
-      // 获取挂载的组件实例
-      const echarts = proxy.$echarts
-      //初始化挂载
-      const echarts1 = echarts.init(document.getElementById('main'))
-      //添加配置
-      echarts1.setOption(option)
-      // 自适应
-      window.onresize = function () {
-        echarts1.resize()
-      }
-    })
-</script>
-
 <template>
-  <div id="main" style="width: 600px;height:400px;"></div>
-</template>
+    <a-layout style="min-height:1080px;">
 
-<style scoped>
-</style>
+        <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+            <div class="logo" />
+            <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+                <a-menu-item key="0" style="height: 80px;background-color:#000066;">
+                    <cloud-outlined :style="{ fontSize: '30px', color: '#08c' }">City Weather</cloud-outlined>
+                    <span style="font-size: 20px; color: #fff;">City Weather</span>
+                </a-menu-item>
+                <a-menu-item key="1">
+                    <user-outlined />
+                    <span>nav 1</span>
+                </a-menu-item>
+                <a-menu-item key="2">
+                    <video-camera-outlined />
+                    <span>nav 2</span>
+                </a-menu-item>
+                <a-menu-item key="3">
+                    <upload-outlined />
+                    <span>nav 3</span>
+                </a-menu-item>
+            </a-menu>
+        </a-layout-sider>
+        <a-layout>
+            <a-layout-header style="background: #fff; padding: 10,0px">
+                <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
+                <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+                <span style="margin-left:20px ;">Wellcome to city weather!</span>
+            </a-layout-header>
+            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
+                <div class="box">
+                    <PieChart />
+                </div>
+                <div class="box">
+                    <LineChart />
+                </div>
+            </a-layout-content>
+        </a-layout>
+    </a-layout>
+</template>
+  <script setup lang="ts">
+import {
+    UserOutlined,
+    VideoCameraOutlined,
+    UploadOutlined,
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
+    CloudOutlined
+} from '@ant-design/icons-vue';
+import { ref } from 'vue';
+import LineChart from './LineChart.vue';
+import PieChart from './PieChart.vue';
+const selectedKeys = ref<string[]>(['1'])
+const collapsed = ref<boolean>(false)
+
+</script>
+  <style>
+  .box {
+      float: left;
+  }
+  
+  #components-layout-demo-custom-trigger .trigger {
+      font-size: 18px;
+      line-height: 64px;
+      padding: 0 24px;
+      cursor: pointer;
+      transition: color 0.3s;
+  }
+  
+  #components-layout-demo-custom-trigger .trigger:hover {
+      color: #1890ff;
+  }
+  
+  #components-layout-demo-custom-trigger .logo {
+      height: 32px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 16px;
+  }
+  
+  .site-layout .site-layout-background {
+      background: #fff;
+  }
+  </style>
+  

@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
-import './style.css'
+import Antd from 'ant-design-vue';
 import App from './App.vue'
 import * as echarts from 'echarts';
+import 'ant-design-vue/dist/antd.css';
 const app=createApp(App)
 app.config.globalProperties.$echarts=echarts;
+app.use(Antd)
 app.mount('#app')
