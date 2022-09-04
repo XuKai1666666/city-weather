@@ -79,6 +79,7 @@ const option = {
         }
     ]
 };
+
 onMounted(() => {
     // 获取挂载的组件实例
     const echarts = proxy.$echarts

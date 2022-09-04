@@ -28,12 +28,22 @@
                 <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
                 <span style="margin-left:20px ;">Wellcome to city weather!</span>
             </a-layout-header>
-            <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
-                <div class="box">
-                    <PieChart />
+            <a-layout-content
+                :style="{ margin: '24px 16px', padding: '24px', background: '#ececec', minHeight: '280px' }">
+                <div class="card">
+                    <a-card title="Pie Chart" :bordered="false">
+                        <PieChart />
+                    </a-card>
                 </div>
-                <div class="box">
-                    <LineChart />
+                <div class="card">
+                    <a-card title="Line Chart" :bordered="false">
+                        <LineChart/>
+                    </a-card>
+                </div>
+                <div class="card">
+                    <a-card title="Weather" :bordered="false">
+                        <WeatherDetail />
+                    </a-card>
                 </div>
             </a-layout-content>
         </a-layout>
@@ -51,13 +61,16 @@ import {
 import { ref } from 'vue';
 import LineChart from './LineChart.vue';
 import PieChart from './PieChart.vue';
+import WeatherDetail from './WeatherDetail.vue';
 const selectedKeys = ref<string[]>(['1'])
 const collapsed = ref<boolean>(false)
 
 </script>
   <style>
-  .box {
+  .card {
       float: left;
+      padding: 16px;
+      width: 50%;
   }
   
   #components-layout-demo-custom-trigger .trigger {
