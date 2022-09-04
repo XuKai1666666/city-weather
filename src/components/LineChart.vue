@@ -95,7 +95,7 @@ onMounted(() => {
 </script>
     
     <template>
-    <div id="line" style="width: 500px;height: 300px;"></div>
+    <div id="line" style="width: 60%;height: 400px;"></div>
 </template>
     
     <style scoped>

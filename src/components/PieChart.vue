@@ -44,7 +44,7 @@ import {  onMounted, getCurrentInstance } from 'vue'
 </script>
 
 <template>
-  <div id="pie" style="width: 500px;height: 300px;"></div>
+  <div id="pie" style="width: 60%;height: 400px;"></div>
 </template>
 
 <style scoped>

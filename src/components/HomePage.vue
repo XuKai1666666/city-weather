@@ -70,7 +70,8 @@ const collapsed = ref<boolean>(false)
   .card {
       float: left;
       padding: 16px;
-      width: 50%;
+      width: 100%;
+      max-height: 500px;
   }
   
   #components-layout-demo-custom-trigger .trigger {

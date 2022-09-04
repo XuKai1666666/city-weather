@@ -151,7 +151,7 @@ onMounted(() => {
             </template>
         </a-list>
     </div>
-    <div id="weatherline" style="width: 500px;height: 300px;float: left;"></div>
+    <div id="weatherline" style="width: 60%;height: 400px;float: left;"></div>
 
 </template>
 <style>
