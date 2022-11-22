@@ -1,13 +1,12 @@
 <template>
+    <div style="height: 64px;background: #000066;">
+        <cloud-outlined :style="{ fontSize: '40px', color: '#08c',padding:'10px' }">City Weather</cloud-outlined>
+        <span style="font-size: 20px; color: #fff;">City Weather</span>
+    </div>
     <a-layout style="min-height:1080px;">
-
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
             <div class="logo" />
             <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-                <a-menu-item key="0" style="height: 80px;background-color:#000066;">
-                    <cloud-outlined :style="{ fontSize: '30px', color: '#08c' }">City Weather</cloud-outlined>
-                    <span style="font-size: 20px; color: #fff;">City Weather</span>
-                </a-menu-item>
                 <a-menu-item key="1">
                     <user-outlined />
                     <span>nav 1</span>
