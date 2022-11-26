@@ -1,7 +1,7 @@
 <template>
-    <div style="height: 64px;background: #000066;">
-        <cloud-outlined :style="{ fontSize: '40px', color: '#08c',padding:'10px' }">City Weather</cloud-outlined>
-        <span style="font-size: 20px; color: #fff;">City Weather</span>
+    <div style="height: 64px;background: #000066;display: flex;flex-direction: row;align-items: center;">
+        <cloud-outlined :style="{ fontSize: '50px', color: '#08c',padding:'10px',}">City Weather</cloud-outlined>
+        <span style="font-size: 20px; color: #fff;right: 50px;">City Weather</span>
     </div>
     <a-layout style="min-height:1080px;">
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
@@ -55,8 +55,10 @@ import {
     UploadOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
-    CloudOutlined
+    CloudOutlined,
+AlignCenterOutlined
 } from '@ant-design/icons-vue';
+import { Anchor } from 'ant-design-vue';
 import { ref } from 'vue';
 import LineChart from './LineChart.vue';
 import PieChart from './PieChart.vue';
