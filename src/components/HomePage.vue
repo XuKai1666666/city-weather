@@ -8,8 +8,7 @@
     </div>
     <a-layout style="min-height:1080px;">
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible theme="light">
-            <div class="logo" />
-            <a-menu v-model:selectedKeys="selectedKeys"  mode="inline">
+            <a-menu v-model:selectedKeys="selectedKeys" mode="inline">
                 <a-menu-item key="1">
                     <user-outlined />
                     <span>nav 1</span>
@@ -27,15 +26,10 @@
         <a-layout>
 
             <a-layout-content
-                :style="{ margin: '24px 16px', padding: '24px', background: '#ececec', minHeight: '280px' }">
+                :style="{ padding: '10px',minHeight: '1080px' }">
                 <div class="card">
                     <a-card title="Pie Chart" :bordered="false">
                         <PieChart />
-                    </a-card>
-                </div>
-                <div class="card">
-                    <a-card title="Line Chart" :bordered="false">
-                        <LineChart />
                     </a-card>
                 </div>
                 <div class="card">
@@ -57,7 +51,6 @@ import {
     CloudOutlined,
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
-import LineChart from './LineChart.vue';
 import PieChart from './PieChart.vue';
 import WeatherDetail from './WeatherDetail.vue';
 const selectedKeys = ref<string[]>(['1'])
@@ -67,13 +60,14 @@ const collapsed = ref<boolean>(false)
 <style>
 .card {
     float: left;
-    padding: 16px;
-    width: 100%;
-    max-height: 500px;
+    padding: 10px;
+    width: 50%;
 }
-.trigger{
+
+.trigger {
     margin-left: 40px;
 }
+
 #components-layout-demo-custom-trigger .trigger {
     font-size: 18px;
     line-height: 64px;
@@ -85,12 +79,6 @@ const collapsed = ref<boolean>(false)
 
 #components-layout-demo-custom-trigger .trigger:hover {
     color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-    height: 32px;
-    background: rgba(253, 253, 253, 0.3);
-    margin: 16px;
 }
 
 .site-layout .site-layout-background {

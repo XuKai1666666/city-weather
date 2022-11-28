@@ -51,7 +51,6 @@ const option = {
             dataView: { readOnly: false },
             magicType: { type: ['line', 'bar'] },
             restore: {},
-            saveAsImage: {}
         }
     },
     xAxis: {
@@ -70,6 +69,7 @@ const option = {
             name: 'Highest',
             type: 'line',
             data: FutureDaysMaxTemperature(FutureDays),
+            radius: '50%',
             markPoint: {
                 data: [
                     { type: 'max', name: 'Max' },

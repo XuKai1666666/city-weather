@@ -11,7 +11,7 @@ import {  onMounted, getCurrentInstance } from 'vue'
         {
           name: '访问来源',
           type: 'pie',
-          radius: '70%',
+          radius: '100%',
           data: [
             { value: 1048, name: '清洁能源发电区' },
             { value: 735, name: '公共娱乐区域' },
