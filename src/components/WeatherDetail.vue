@@ -69,7 +69,6 @@ const option = {
             name: 'Highest',
             type: 'line',
             data: FutureDaysMaxTemperature(FutureDays),
-            radius: '70%',
             markPoint: {
                 data: [
                     { type: 'max', name: 'Max' },
