@@ -35,23 +35,8 @@ function FutureDaysDate(FutureDays:any){
         return date
 }
 const option = {
-    // title: {
-    //     text: 'Temperature Change in the Coming Week'
-    // },
     tooltip: {
         trigger: 'axis'
-    },
-    legend: {},
-    toolbox: {
-        show: true,
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            dataView: { readOnly: false },
-            magicType: { type: ['line', 'bar'] },
-            restore: {},
-        }
     },
     xAxis: {
         type: 'category',
@@ -66,7 +51,6 @@ const option = {
     },
     series: [
         {
-            name: 'Highest',
             type: 'line',
             data: FutureDaysMaxTemperature(FutureDays),
             markPoint: {
@@ -80,7 +64,6 @@ const option = {
             }
         },
         {
-            name: 'Lowest',
             type: 'line',
             data: FutureDaysMinTemperature(FutureDays),
             markPoint: {
