@@ -3,10 +3,12 @@ import * as DT from '../data.json';
 import { onMounted, getCurrentInstance } from 'vue'
 const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
-const result = DT.result;
-const City = result.city;
-const FutureDays = result.future
-const RealTime = result.realtime
+// const result = DT.result;
+// const City = result.city;
+// const FutureDays = result.future
+// const RealTime = result.realtime;
+const {reason,result:{city},result:{realtime},result:{future},}=DT
+
 
 function FutureDaysMaxTemperature(FutureDays:any){
     const Temperature:Array<string> = [];
@@ -41,7 +43,7 @@ const option = {
     xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: FutureDaysDate(FutureDays)
+        data: FutureDaysDate(future)
     },
     yAxis: {
         type: 'value',
@@ -52,7 +54,7 @@ const option = {
     series: [
         {
             type: 'line',
-            data: FutureDaysMaxTemperature(FutureDays),
+            data: FutureDaysMaxTemperature(future),
             markPoint: {
                 data: [
                     { type: 'max', name: 'Max' },
@@ -65,7 +67,7 @@ const option = {
         },
         {
             type: 'line',
-            data: FutureDaysMinTemperature(FutureDays),
+            data: FutureDaysMinTemperature(future),
             markPoint: {
                 data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
             },
@@ -104,25 +106,25 @@ onMounted(() => {
     window.onresize = function () {
         echarts1.resize()
     }
-    FutureDaysMaxTemperature(FutureDays)
-    FutureDaysMinTemperature(FutureDays)
+    FutureDaysMaxTemperature(future)
+    FutureDaysMinTemperature(future)
 })
 </script>
 <template>
 
     <div>
-        <h1>{{ City }}</h1>
+        <h1>{{ city }}</h1>
     </div>
     <div class="weather-realtime">
-        <span>{{ RealTime.temperature }}°C</span>
-        <span>{{ RealTime.info }}</span>
-        <span>湿度：{{ RealTime.humidity }}</span>
-        <span>{{ RealTime.direct }}</span>
-        <span>{{ RealTime.power }}</span>
-        <span>空气质量指数：{{ RealTime.aqi }}</span>
+        <span>{{ realtime.temperature }}°C</span>
+        <span>{{ realtime.info }}</span>
+        <span>湿度：{{ realtime.humidity }}</span>
+        <span>{{ realtime.direct }}</span>
+        <span>{{ realtime.power }}</span>
+        <span>空气质量指数：{{ realtime.aqi }}</span>
     </div>
     <div>
-        <a-list itemLayout="vertical" :data-source=FutureDays>
+        <a-list itemLayout="vertical" :data-source=future>
             <template #renderItem=Future>
                 <a-list-item style="float: left;padding:10px">
                     <p>{{ Future.item.date }}</p>
