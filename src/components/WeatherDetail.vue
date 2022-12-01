@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as DT from '../data.json';
 import { onMounted, getCurrentInstance } from 'vue'
+import SearchInput from './SearchInput.vue'
 const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
 // const result = DT.result;
@@ -112,8 +113,9 @@ onMounted(() => {
 </script>
 <template>
 
-    <div>
+    <div class="weather-city">
         <h1>{{ city }}</h1>
+        <SearchInput style="margin-left: 40px;"/>
     </div>
     <div class="weather-realtime">
         <span>{{ realtime.temperature }}°C</span>
@@ -139,6 +141,9 @@ onMounted(() => {
 
 </template>
 <style>
+.weather-city{
+    display: flex;
+}
 .weather-realtime span {
     margin-right: 20px;
 }
