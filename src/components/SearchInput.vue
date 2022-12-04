@@ -9,7 +9,7 @@ import axios from 'axios'
 export default defineComponent({
   setup() {
     const value = ref<string>('');
-    const wheatherApiUrl: string = "http://apis.juhe.cn/simpleWeather/query?city=";
+    const wheatherApiUrl: string = "/api/simpleWeather/query?city=";
     const key: string = "&key=fe96221d015c2d2ed59065fc3ed591bb";
     const onSearch = (searchValue: string) => {
       console.log('use value', searchValue);
@@ -24,9 +24,6 @@ export default defineComponent({
         console.error(err);
       })
     };
-    
-
-
     return {
       value,
       onSearch,
