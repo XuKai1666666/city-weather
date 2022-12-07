@@ -6,6 +6,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios'
+import { string } from 'vue-types';
 export default defineComponent({
   setup() {
     const value = ref<string>('');
@@ -20,6 +21,7 @@ export default defineComponent({
       axios.get(wheatherApiUrl + encodeURI(searchValue) + key, {
       }).then((res) => {
         console.log('数据：', res);
+        sessionStorage.setItem('cityWeatherData',JSON.stringify(res) )
       }).catch((err) => {
         console.error(err);
       })
