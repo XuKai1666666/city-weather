@@ -8,9 +8,10 @@ const { proxy } = getCurrentInstance() as any
 // const City = result.city;
 // const FutureDays = result.future
 // const RealTime = result.realtime;
-const {reason,result:{city},result:{realtime},result:{future},}=DT
+const sessionStorageDT=JSON.parse(sessionStorage.getItem('cityWeatherData'))
+const {reason,result:{city},result:{realtime},result:{future},}=(sessionStorageDT==null ? sessionStorageDT:DT)
 
-
+console.log('赋值数据sessionStorageDT：',sessionStorageDT);
 function FutureDaysMaxTemperature(FutureDays:any){
     const Temperature:Array<string> = [];
         const pattern = new RegExp(/(?<=\/)\d{1,2}(?=℃)/);

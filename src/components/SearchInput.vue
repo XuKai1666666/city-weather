@@ -6,7 +6,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios'
-import { string } from 'vue-types';
 export default defineComponent({
   setup() {
     const value = ref<string>('');
