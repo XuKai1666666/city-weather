@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as DT from '../data.json';
-import { onMounted, getCurrentInstance } from 'vue'
+import { onMounted, getCurrentInstance, reactive } from 'vue'
 import SearchInput from './SearchInput.vue'
 const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
@@ -8,8 +8,9 @@ const { proxy } = getCurrentInstance() as any
 // const City = result.city;
 // const FutureDays = result.future
 // const RealTime = result.realtime;
-const sessionStorageDT=JSON.parse(sessionStorage.getItem('cityWeatherData'))
-const {reason,result:{city},result:{realtime},result:{future},}=(sessionStorageDT==null ? sessionStorageDT:DT)
+const sessionStorageDT=reactive( JSON.parse(sessionStorage.getItem('cityWeatherData')))
+
+const {reason,result:{city},result:{realtime},result:{future},}=DT
 
 console.log('赋值数据sessionStorageDT：',sessionStorageDT);
 function FutureDaysMaxTemperature(FutureDays:any){
@@ -110,6 +111,7 @@ onMounted(() => {
     }
     FutureDaysMaxTemperature(future)
     FutureDaysMinTemperature(future)
+    console.log(JSON.stringify( sessionStorageDT.data))
 })
 </script>
 <template>
