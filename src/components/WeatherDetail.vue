@@ -9,8 +9,9 @@ const { proxy } = getCurrentInstance() as any
 // const FutureDays = result.future
 // const RealTime = result.realtime;
 const sessionStorageDT=reactive( JSON.parse(sessionStorage.getItem('cityWeatherData')))
-
-const {reason,result:{city},result:{realtime},result:{future},}=DT
+const shuju=JSON.stringify(sessionStorageDT)==null?DT:JSON.stringify(sessionStorageDT)
+// const {reason,result:{city},result:{realtime},result:{future},}=DT
+const {data,data:{reason},data:{result},data:{result:{city}},data:{result:{realtime}},data:{result:{future}}}=DT
 
 console.log('赋值数据sessionStorageDT：',sessionStorageDT);
 function FutureDaysMaxTemperature(FutureDays:any){
@@ -111,7 +112,7 @@ onMounted(() => {
     }
     FutureDaysMaxTemperature(future)
     FutureDaysMinTemperature(future)
-    console.log(JSON.stringify( sessionStorageDT.data))
+    console.log('数据shuju',shuju)
 })
 </script>
 <template>
