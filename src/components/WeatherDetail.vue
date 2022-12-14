@@ -8,8 +8,8 @@ const { proxy } = getCurrentInstance() as any
 // const City = result.city;
 // const FutureDays = result.future
 // const RealTime = result.realtime;
-const sessionStorageDT=reactive( JSON.parse(sessionStorage.getItem('cityWeatherData')))
-const shuju=JSON.stringify(sessionStorageDT)==null?DT:JSON.stringify(sessionStorageDT)
+const sessionStorageDT=reactive( sessionStorage.getItem('cityWeatherData'))
+const shuju=sessionStorageDT==null?DT:eval('(' + sessionStorageDT+')')
 // const {reason,result:{city},result:{realtime},result:{future},}=DT
 const {data,data:{reason},data:{result},data:{result:{city}},data:{result:{realtime}},data:{result:{future}}}=DT
 
@@ -112,7 +112,7 @@ onMounted(() => {
     }
     FutureDaysMaxTemperature(future)
     FutureDaysMinTemperature(future)
-    console.log('数据shuju',shuju)
+    console.log('数据shuju',typeof(shuju))
 })
 </script>
 <template>
