@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import * as DT from '../data.json';
-import { onMounted, getCurrentInstance, reactive } from 'vue'
+import { onMounted, getCurrentInstance, reactive,ref } from 'vue'
 import SearchInput from './SearchInput.vue'
 const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
-// const result = DT.result;
-// const City = result.city;
-// const FutureDays = result.future
-// const RealTime = result.realtime;
-const sessionStorageDT=reactive( sessionStorage.getItem('cityWeatherData'))
-const shuju=sessionStorageDT==null?DT:eval('(' + sessionStorageDT+')')
-// const {reason,result:{city},result:{realtime},result:{future},}=DT
-const {data,data:{reason},data:{result},data:{result:{city}},data:{result:{realtime}},data:{result:{future}}}=DT
 
-console.log('赋值数据sessionStorageDT：',sessionStorageDT);
+let sessionStorageDT=reactive(JSON.parse(sessionStorage.getItem('cityWeatherData')))
+let shuju=reactive((sessionStorageDT==null?DT:sessionStorageDT))
+let data=reactive(DT.data)
+let result = reactive(data.result);
+let city = ref(result.city);
+let future = reactive(result.future);
+let realtime = reactive(result.realtime);
+// const {reason,result:{city},result:{realtime},result:{future},}=DT
+// const {data,data:{reason},data:{result},data:{result:{city}},data:{result:{realtime}},data:{result:{future}}}=reactive(DT)
+// 解构赋值无法响应式赋值
 function FutureDaysMaxTemperature(FutureDays:any){
     const Temperature:Array<string> = [];
         const pattern = new RegExp(/(?<=\/)\d{1,2}(?=℃)/);
@@ -112,11 +113,12 @@ onMounted(() => {
     }
     FutureDaysMaxTemperature(future)
     FutureDaysMinTemperature(future)
+    console.log('赋值数据sessionStorageDT：',sessionStorageDT==null);
     console.log('数据shuju',typeof(shuju))
 })
 </script>
 <template>
-
+    <div>{{shuju}}</div>
     <div class="weather-city">
         <h1>{{ city }}</h1>
         <SearchInput style="margin-left: 40px;"/>
