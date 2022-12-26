@@ -6,7 +6,7 @@ const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
 
 let sessionStorageDT=reactive(JSON.parse(sessionStorage.getItem('cityWeatherData')))
-let shuju=reactive(sessionStorageDT)
+let shuju=DT
 let data=reactive(DT.data)
 let result = reactive(data.result);
 let city = ref(result.city);
