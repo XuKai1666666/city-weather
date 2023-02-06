@@ -1,45 +1,79 @@
+<template>
+    <!-- <div>{{result}}</div> -->
+    <div class="weather-city">
+        <h1>{{ city }}</h1>
+        <SearchInput style="margin-left: 40px;" />
+    </div>
+    <div v-if="realtime" class="weather-realtime">
+        <span>{{ realtime.temperature }}°C</span>
+        <span>{{ realtime.info }}</span>
+        <span>湿度：{{ realtime.humidity }}</span>
+        <span>{{ realtime.direct }}</span>
+        <span>{{ realtime.power }}</span>
+        <span>空气质量指数：{{ realtime.aqi }}</span>
+    </div>
+    <div v-if="future">
+        <a-list itemLayout="vertical" :data-source=future>
+            <template #renderItem=Future>
+                <a-list-item style="float: left;padding:10px">
+                    <p>{{ Future.item.date }}</p>
+                    <p>{{ Future.item.temperature }}</p>
+                    <p>{{ Future.item.weather }}</p>
+                    <p>{{ Future.item.direct }}</p>
+                </a-list-item>
+            </template>
+        </a-list>
+    </div>
+    <div id="weatherline" style="width: 60%;height: 400px;float: left;"></div>
+</template>
 <script setup lang="ts">
 import * as DT from '../data.json';
-import { onMounted, getCurrentInstance, reactive,ref } from 'vue'
+import { onMounted, getCurrentInstance, reactive, ref } from 'vue'
 import SearchInput from './SearchInput.vue'
 const { proxy } = getCurrentInstance() as any
 // 配置建议写在 onMount 的外面
-
-let sessionStorageDT=reactive(JSON.parse(sessionStorage.getItem('cityWeatherData')))
-let shuju=DT
-let data=reactive(DT.data)
-let result = reactive(data.result);
-let city = ref(result.city);
-let future = reactive(result.future);
-let realtime = reactive(result.realtime);
 // const {reason,result:{city},result:{realtime},result:{future},}=DT
 // const {data,data:{reason},data:{result},data:{result:{city}},data:{result:{realtime}},data:{result:{future}}}=reactive(DT)
 // 解构赋值无法响应式赋值
-function FutureDaysMaxTemperature(FutureDays:any){
-    const Temperature:Array<string> = [];
-        const pattern = new RegExp(/(?<=\/)\d{1,2}(?=℃)/);
-        for(let index in FutureDays){
-            Temperature.push(pattern[Symbol.match](FutureDays[index].temperature)[0])
-        }
-        console.log(Temperature)
-        return Temperature
+let result = null;
+let city = null;
+let future = null;
+let realtime = null;
+result = (getSessionStorage()).data.result;
+console.log(typeof result)
+city = result.city
+future = result.future;
+realtime = result.realtime;
+function getSessionStorage() {
+    let storage = reactive(JSON.parse(sessionStorage.getItem('cityWeatherData')))
+    let data = storage !== null && storage.data.error_code != 207301 ? storage : DT
+    return data
 }
-function FutureDaysMinTemperature(FutureDays:any){
-    const Temperature2:Array<string> = [];
-        const pattern = new RegExp(/\d{1,2}(?=\/)/);
-        for(let index in FutureDays){
-            Temperature2.push(pattern[Symbol.match](FutureDays[index].temperature)[0])
-        }
-        console.log(Temperature2)
-        return Temperature2
+function FutureDaysMaxTemperature(FutureDays: any) {
+    const Temperature: Array<string> = [];
+    const pattern = new RegExp(/(?<=\/)\d{1,2}(?=℃)/);
+    for (let index in FutureDays) {
+        Temperature.push(pattern[Symbol.match](FutureDays[index].temperature)[0])
+    }
+    console.log(Temperature)
+    return Temperature
 }
-function FutureDaysDate(FutureDays:any){
-    const date:Array<string> = [];
-        for(let index in FutureDays){
-            date.push(FutureDays[index].date)
-        }
-        console.log(date)
-        return date
+function FutureDaysMinTemperature(FutureDays: any) {
+    const Temperature2: Array<string> = [];
+    const pattern = new RegExp(/\d{1,2}(?=\/)/);
+    for (let index in FutureDays) {
+        Temperature2.push(pattern[Symbol.match](FutureDays[index].temperature)[0])
+    }
+    console.log(Temperature2)
+    return Temperature2
+}
+function FutureDaysDate(FutureDays: any) {
+    const date: Array<string> = [];
+    for (let index in FutureDays) {
+        date.push(FutureDays[index].date)
+    }
+    console.log(date)
+    return date
 }
 const option = {
     tooltip: {
@@ -100,6 +134,7 @@ const option = {
         }
     ]
 };
+
 onMounted(() => {
     // 获取挂载的组件实例
     const echarts = proxy.$echarts
@@ -113,43 +148,22 @@ onMounted(() => {
     }
     FutureDaysMaxTemperature(future)
     FutureDaysMinTemperature(future)
-    console.log('赋值数据sessionStorageDT：',sessionStorageDT==null);
-    console.log('数据shuju',typeof(shuju))
-})
-</script>
-<template>
-    <div>{{shuju}}</div>
-    <div class="weather-city">
-        <h1>{{ city }}</h1>
-        <SearchInput style="margin-left: 40px;"/>
-    </div>
-    <div class="weather-realtime">
-        <span>{{ realtime.temperature }}°C</span>
-        <span>{{ realtime.info }}</span>
-        <span>湿度：{{ realtime.humidity }}</span>
-        <span>{{ realtime.direct }}</span>
-        <span>{{ realtime.power }}</span>
-        <span>空气质量指数：{{ realtime.aqi }}</span>
-    </div>
-    <div>
-        <a-list itemLayout="vertical" :data-source=future>
-            <template #renderItem=Future>
-                <a-list-item style="float: left;padding:10px">
-                    <p>{{ Future.item.date }}</p>
-                    <p>{{ Future.item.temperature }}</p>
-                    <p>{{ Future.item.weather }}</p>
-                    <p>{{ Future.item.direct }}</p>
-                </a-list-item>
-            </template>
-        </a-list>
-    </div>
-    <div id="weatherline" style="width: 60%;height: 400px;float: left;"></div>
 
-</template>
+
+})
+// watch(
+//   () => result,
+//   (result, prevresult) => {
+//     result = (getSessionStorage()).data.result;
+//   }
+// )
+</script>
+
 <style>
-.weather-city{
+.weather-city {
     display: flex;
 }
+
 .weather-realtime span {
     margin-right: 20px;
 }
