@@ -7,6 +7,6 @@ function dispatchEventStroage() {
         window.dispatchEvent(setEvent)
         signSetItem.apply(this, arguments)
     }
-}
-
-export default dispatchEventStroage;
+  }
+   
+  export default dispatchEventStroage;
