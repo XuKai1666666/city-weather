@@ -1,14 +1,13 @@
 <template>
   <a-space direction="vertical">
     <a-input-search v-model:value="value" placeholder="input search text" enter-button @search="onSearch" />
-  </a-space>
+</a-space>
 </template>
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue';
 import axios from 'axios'
 const value = ref<string>('');
-  let refreshKey=1
-const emit=defineEmits(['refreshKey'])
+const emit = defineEmits(['refreshKey'])
 
 // const refreshKey=()=>{
 //   resultKey+=1
@@ -27,8 +26,7 @@ const onSearch = (searchValue: string) => {
   }).then((res) => {
     console.log('数据：', res);
     sessionStorage.setItem('cityWeatherData', JSON.stringify(res))
-    emit('refreshKey',refreshKey+1)
-    console.log(refreshKey)
+    emit('refreshKey', encodeURI(searchValue))
   }).catch((err) => {
     console.error(err);
   })
