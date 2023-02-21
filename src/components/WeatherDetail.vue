@@ -1,6 +1,6 @@
 <template>
-    <div class="weather-city" :key="childMsg">
-        <h1>{{ setData().city }}</h1>
+    <div class="weather-city" >
+        <h1 :key="childMsg">{{ setData().city }}</h1>
         <SearchInput style="margin-left: 40px;" @refresh-key="(msg) => childMsg = msg" />
     </div>
     <div v-if="setData().realtime" class="weather-realtime" :key="childMsg">
@@ -23,11 +23,11 @@
             </template>
         </a-list>
     </div>
-<div id="weatherline" style="width: 60%;height: 400px;float: left;" :key="childMsg"></div>
+    <div id="weatherline" style="width: 60%;height: 400px;float: left;"></div>
 </template>
 <script setup lang="ts">
 import * as DT from '../data.json';
-import { onMounted, getCurrentInstance, reactive, ref, watch, onBeforeUnmount, } from 'vue'
+import { onMounted, getCurrentInstance, reactive, ref, watch, } from 'vue'
 import SearchInput from './SearchInput.vue'
 const { proxy } = getCurrentInstance() as any
 let cityWeatherData = null;
@@ -35,90 +35,85 @@ let result = null;
 let city = null;
 let future = null;
 let realtime = null;
-let option = null;
 let childMsg = ref('');
 let echarts = null;
 let echarts1 = null;
 //初始化挂载
-
 function setData() {
-    cityWeatherData = JSON.parse(sessionStorage.getItem('cityWeatherData'))
-    result = (getSessionStorage()).data.result
+    cityWeatherData = JSON.parse(localStorage.getItem('cityWeatherData'))
+    result = (getlocalStorage()).data.result
     city = result.city
     future = result.future;
     realtime = result.realtime;
-    option = {
-        tooltip: {
-            trigger: 'axis'
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: FutureDaysDate(future)
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: '{value} °C'
-            }
-        },
-        series: [
-            {
-                type: 'line',
-                data: FutureDaysMaxTemperature(future),
-                markPoint: {
-                    data: [
-                        { type: 'max', name: 'Max' },
-                        { type: 'min', name: 'Min' }
-                    ]
-                },
-                markLine: {
-                    data: [{ type: 'average', name: 'Avg' }]
-                }
-            },
-            {
-                type: 'line',
-                data: FutureDaysMinTemperature(future),
-                markPoint: {
-                    data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
-                },
-                markLine: {
-                    data: [
-                        { type: 'average', name: 'Avg' },
-                        [
-                            {
-                                symbol: 'none',
-                                x: '90%',
-                                yAxis: 'max'
-                            },
-                            {
-                                symbol: 'circle',
-                                label: {
-                                    position: 'start',
-                                    formatter: 'Max'
-                                },
-                                type: 'max',
-                                name: '最高点'
-                            }
-                        ]
-                    ]
-                }
-            }
-        ]
-    }
+
     return {
         cityWeatherData,
         result,
         city,
         future,
         realtime,
-        option,
     }
 }
-
-
-
-function getSessionStorage() {
+let option = (Future)=> echarts1.setOption({
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: FutureDaysDate(Future)
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            formatter: '{value} °C'
+        }
+    },
+    series: [
+        {
+            type: 'line',
+            data: FutureDaysMaxTemperature(Future),
+            markPoint: {
+                data: [
+                    { type: 'max', name: 'Max' },
+                    { type: 'min', name: 'Min' }
+                ]
+            },
+            markLine: {
+                data: [{ type: 'average', name: 'Avg' }]
+            }
+        },
+        {
+            type: 'line',
+            data: FutureDaysMinTemperature(Future),
+            markPoint: {
+                data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
+            },
+            markLine: {
+                data: [
+                    { type: 'average', name: 'Avg' },
+                    [
+                        {
+                            symbol: 'none',
+                            x: '90%',
+                            yAxis: 'max'
+                        },
+                        {
+                            symbol: 'circle',
+                            label: {
+                                position: 'start',
+                                formatter: 'Max'
+                            },
+                            type: 'max',
+                            name: '最高点'
+                        }
+                    ]
+                ]
+            }
+        }
+    ],
+},true)
+function getlocalStorage() {
     let data = cityWeatherData !== null && cityWeatherData.data.error_code == 0 ? cityWeatherData : DT
     return data
 }
@@ -149,30 +144,37 @@ function FutureDaysDate(FutureDays: any) {
     // console.log(date)
     return date
 }
-
-
+// function chartChange() {
+//     //添加配置
+//     echarts1.setOption(setData().option, true)
+// }
 onMounted(() => {
     // 监听 localStorage 变化
     window.addEventListener('storage', () => {
-        cityWeatherData = reactive(JSON.parse(sessionStorage.getItem('cityWeatherData')))
+        cityWeatherData = reactive(JSON.parse(localStorage.getItem('cityWeatherData')))
     })
-    setData()
     // 获取挂载的组件实例
     echarts = proxy.$echarts
-    //初始化挂载
     echarts1 = echarts.init(document.getElementById('weatherline'))
-    //添加配置
-    echarts1.setOption(setData().option, true)
+    setData()
+    //初始化挂载
+    option(setData().future)
     // 自适应
     window.onresize = function () {
         echarts1.resize()
     }
 })
-watch(() => setData().option, (val,newVal) => {
-    echarts1.dispose()
-    console.log(val,newVal),
-    echarts1.setOption(newVal, true)
-})
+watch(() => childMsg,
+    (val, newVal) => {
+        // 监听数据变了  就重新绘制一遍  也就是大佬们说的  "切记，数据变化后需要再次调init方法刷线图表"
+        // 绘制图表
+        setData()
+        console.log("wacth", val, newVal);
+        option(setData().future)
+    }, {
+    deep: true
+}
+)
 </script>
 
 <style>

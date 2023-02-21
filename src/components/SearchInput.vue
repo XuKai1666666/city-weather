@@ -17,15 +17,15 @@ const emit = defineEmits(['refreshKey'])
 const wheatherApiUrl: string = "/api/simpleWeather/query?city=";
 const key: string = "&key=fe96221d015c2d2ed59065fc3ed591bb";
 const onSearch = (searchValue: string) => {
-  console.log('use value', searchValue);
-  console.log('or use this.value', value.value);
-  console.log(value.value)
-  console.log(encodeURI(searchValue))
-  console.log(wheatherApiUrl + encodeURI(searchValue) + key)
+  // console.log('use value', searchValue);
+  // console.log('or use this.value', value.value);
+  // console.log(value.value)
+  // console.log(encodeURI(searchValue))
+  // console.log(wheatherApiUrl + encodeURI(searchValue) + key)
   axios.get(wheatherApiUrl + encodeURI(searchValue) + key, {
   }).then((res) => {
-    console.log('数据：', res);
-    sessionStorage.setItem('cityWeatherData', JSON.stringify(res))
+    // console.log('数据：', res);
+    localStorage.setItem('cityWeatherData', JSON.stringify(res))
     emit('refreshKey', encodeURI(searchValue))
   }).catch((err) => {
     console.error(err);
