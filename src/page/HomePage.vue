@@ -51,8 +51,8 @@ import {
     CloudOutlined,
 } from '@ant-design/icons-vue';
 import { ref } from 'vue';
-import PieChart from './PieChart.vue';
-import WeatherDetail from './WeatherDetail.vue';
+import PieChart from '../components/PieChart.vue';
+import WeatherDetail from '../components/WeatherDetail.vue';
 const selectedKeys = ref<string[]>(['1'])
 const collapsed = ref<boolean>(false)
 
